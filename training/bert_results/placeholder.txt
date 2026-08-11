@@ -1,0 +1,2 @@
+Training result files are stored locally in this directory.
+

@@ -1,0 +1,2 @@
+Training log files are stored locally in this directory.
+

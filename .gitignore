@@ -25,9 +25,10 @@ model/**
 !model/*/placeholder.txt
 
 # Training outputs/checkpoints
-training/bert_results/
-training/bert_logs/
+training/bert_results/**
+training/bert_logs/**
+!training/bert_results/placeholder.txt
+!training/bert_logs/placeholder.txt
 
 # Root architecture image is intentionally local-only
 /汽车贷款智能顾问系统架构图.png
-
