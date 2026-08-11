@@ -1,0 +1,2 @@
+Place the bert_base_chinese model files in this directory.
+

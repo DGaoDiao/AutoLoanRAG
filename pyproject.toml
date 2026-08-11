@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "AutoLoanRAG"
+version = "0.1.0"
+
+[tool.setuptools.packages.find]
+include = ["base", 'mysql_qa', 'rag_qa']
+exclude = ["log", "data"]

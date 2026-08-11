@@ -1,0 +1,2 @@
+Place the bge-reranker-v2-m3 model files in this directory.
+

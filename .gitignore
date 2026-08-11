@@ -1,0 +1,33 @@
+# Python caches and build metadata
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# IDE files
+.idea/
+.vscode/
+
+# Runtime files and local secrets
+log/
+*.log
+config.ini
+.env
+.env.*
+
+# Local model weights; keep one placeholder in each model directory
+model/**
+!model/
+!model/*/
+!model/*/placeholder.txt
+
+# Training outputs/checkpoints
+training/bert_results/
+training/bert_logs/
+
+# Root architecture image is intentionally local-only
+/汽车贷款智能顾问系统架构图.png
+

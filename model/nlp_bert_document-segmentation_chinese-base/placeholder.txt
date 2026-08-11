@@ -1,0 +1,2 @@
+Place the nlp_bert_document-segmentation_chinese-base model files in this directory.
+

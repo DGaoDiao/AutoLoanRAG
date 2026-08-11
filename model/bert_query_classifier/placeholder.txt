@@ -1,0 +1,2 @@
+Place the bert_query_classifier model files in this directory.
+
