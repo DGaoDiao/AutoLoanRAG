@@ -6,17 +6,29 @@ import time
 
 class MySqlQASystem:
     def __init__(self,mysql_client, redis_client):
+        """??????
+        
+        params:
+            mysql_client: ?????
+            redis_client: ?????
+        
+        return:
+            ??"""
         self.logger = logger
         self.mysql_client = mysql_client
         self.redis_client = redis_client
         self.bm25_search = BM25Search(self.redis_client, self.mysql_client)
 
     def query(self, query):
-        '''
-        处理用户查询, 通过BM25查询搜索mysql获取答案, 返回结果并记录
-        :param query:
-        :return:
-        '''
+        """处理用户查询, 通过BM25查询搜索mysql获取答案, 返回结果并记录
+                        :param query:
+                        :return:
+                
+                params:
+                    query: ?????
+        
+        return:
+            ??????"""
         start_time = time.time()
         self.logger.info(f'处理查询:{query}')
         answer, _ = self.bm25_search.search(query)
@@ -30,6 +42,13 @@ class MySqlQASystem:
         return answer
 
 def main():
+    """?? main ???
+    
+    params:
+        ??
+    
+    return:
+        ??????"""
     with MySqlClient() as mysql_client:
         with RedisClient() as redis_client:
             mysql_qa = MySqlQASystem(mysql_client, redis_client)

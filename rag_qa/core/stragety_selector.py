@@ -8,6 +8,13 @@ from openai import OpenAI
 
 class StrategySelector:
     def __init__(self):
+        """??????
+        
+        params:
+            ??
+        
+        return:
+            ??"""
         self.client = OpenAI(
             api_key=Config().LLM_DASHSCOPE_API_KEY,
             base_url=Config().LLM_DASHSCOPE_BASE_URL,
@@ -15,6 +22,13 @@ class StrategySelector:
         self.strategy_prompt_template = self._get_strategy_prompt()
 
     def call_dashscope(self, prompt):
+        """?? call_dashscope ???
+        
+        params:
+            prompt: ?????
+        
+        return:
+            ??????"""
         try:
             completion = self.client.chat.completions.create(
                 model=Config().LLM_MODEL,
@@ -31,6 +45,13 @@ class StrategySelector:
             return '直接检索'
 
     def _get_strategy_prompt(self):
+        """?? _get_strategy_prompt ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         return PromptTemplate(
             template='''
             你是一个专业的问题分析师，负责分析用户查询 {query}，并从以下四种检索增强策略中选择一个最适合的策略，直接返回策略名称，不需要解释过程。
@@ -72,11 +93,15 @@ class StrategySelector:
 
     # 选择检索策略 -> 选择检索策略的核心方法 -> 整合模板和大模型调用, 返回最终策略.
     def select_strategy(self, query):
-        """
-        函数作用: 根据用户查询, 选择最合适的检索增强策略.
-        :param query: 用户输入的查询文本(字符串)
-        :return: 字符串 -> 选中的检索策略名称 -> 例如: 直接检索, 子查询检索...
-        """
+        """函数作用: 根据用户查询, 选择最合适的检索增强策略.
+                        :param query: 用户输入的查询文本(字符串)
+                        :return: 字符串 -> 选中的检索策略名称 -> 例如: 直接检索, 子查询检索...
+                
+                params:
+                    query: ?????
+        
+        return:
+            ??????"""
         # 1. 格式化提示模板: 将用户查询填充到提示模板的query为止, 生成发给大模型的完整提示, 调用大模型获取策略.
         strategy = self.call_dashscope(self.strategy_prompt_template.format(query=query)).strip()
         # 2. 记录日志.

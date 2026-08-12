@@ -13,9 +13,23 @@ QA_TABLE = 'auto_loan_qa'
 
 class MySqlClient():
     def __init__(self):
+        """??????
+        
+        params:
+            ??
+        
+        return:
+            ??"""
         self.logger = logger
 
     def __enter__(self):
+        """?? __enter__ ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         try:
             #建立mysql连接
             self.connection = pymysql.connect(
@@ -34,10 +48,26 @@ class MySqlClient():
             raise e  #让调用方感知调用失败
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        """?? __exit__ ???
+        
+        params:
+            exc_type: ?????
+            exc_val: ?????
+            exc_tb: ?????
+        
+        return:
+            ??????"""
         self.cursor.close()
         self.connection.close()
 
     def __existing_detection(self):
+        """?? __existing_detection ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         if not self.connection:
             self.logger.error('数据库未连接')
             return False
@@ -45,6 +75,13 @@ class MySqlClient():
 
 
     def create_table(self):
+        """?? create_table ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         if not self.__existing_detection():
             return
         query = """
@@ -64,6 +101,13 @@ class MySqlClient():
             raise e
 
     def insert_data(self, data_path):
+        """?? insert_data ???
+        
+        params:
+            data_path: ?????
+        
+        return:
+            ??????"""
         if not self.__existing_detection():
             return
         try:
@@ -84,11 +128,23 @@ class MySqlClient():
             raise
 
     def seed_auto_loan_data(self):
-        """Idempotently load the bundled automotive-loan FAQ dataset."""
+        """??????????????????????
+        
+        params:
+            ??
+        return:
+            ??????"""
         if AUTO_LOAN_DATA_PATH.exists():
             self.insert_data(AUTO_LOAN_DATA_PATH)
 
     def fetch_question(self):
+        """?? fetch_question ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         if not self.__existing_detection():
             return
         try:
@@ -101,6 +157,13 @@ class MySqlClient():
             return []
 
     def fetch_answer(self, question):
+        """?? fetch_answer ???
+        
+        params:
+            question: ?????
+        
+        return:
+            ??????"""
         if not self.__existing_detection():
             return
         try:

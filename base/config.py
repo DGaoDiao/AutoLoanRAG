@@ -9,6 +9,13 @@ CONFIG_PATH = ROOT_DIR / "config.ini"
 class Config:
     def __init__(self, config_file=str(CONFIG_PATH)):
         # 创建配置文件解析器
+        """??????
+        
+        params:
+            config_file: ?????
+        
+        return:
+            ??"""
         self.config = configparser.ConfigParser()
         # 读取配置文件
         self.config.read(config_file, encoding='utf-8')

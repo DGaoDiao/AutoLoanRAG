@@ -8,12 +8,17 @@ LOG_DIR = Config().LOG_DIR
 LOG_DIR.mkdir(exist_ok=True)
 
 def setup_logger(name: str = 'AutoLoanRAG', path=LOG_DIR):
-    '''
-    创建并返回一个日志记录器，支持同时输出到文件和控制台
-    :param name:
-    :param path:保存路径
-    :return: 日志记录器
-    '''
+    """创建并返回一个日志记录器，支持同时输出到文件和控制台
+            :param name:
+            :param path:保存路径
+            :return: 日志记录器
+        
+        params:
+            name: ?????
+            path: ?????
+    
+    return:
+        ??????"""
     # 初始化日志记录器
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)

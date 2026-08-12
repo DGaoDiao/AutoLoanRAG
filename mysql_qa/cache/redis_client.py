@@ -7,9 +7,23 @@ from base.config import Config
 
 class RedisClient():
     def __init__(self):
+        """??????
+        
+        params:
+            ??
+        
+        return:
+            ??"""
         self.logger = logger
 
     def __enter__(self):
+        """?? __enter__ ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         try:
             self.client = redis.StrictRedis(
                 host=Config().REDIS_HOST,
@@ -23,9 +37,26 @@ class RedisClient():
             raise
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        """?? __exit__ ???
+        
+        params:
+            exc_type: ?????
+            exc_val: ?????
+            exc_tb: ?????
+        
+        return:
+            ??????"""
         self.client.close()
 
     def set_data(self, key, value):
+        """?? set_data ???
+        
+        params:
+            key: ?????
+            value: ?????
+        
+        return:
+            ??????"""
         try:
             self.client.set(key, json.dumps(value, ensure_ascii=False))
             self.logger.info(f'Redis存储成功 {key}')
@@ -33,6 +64,13 @@ class RedisClient():
             self.logger.error(f'Redis存储失败 {e}')
 
     def get_data(self, key):
+        """?? get_data ???
+        
+        params:
+            key: ?????
+        
+        return:
+            ??????"""
         try:
             data = self.client.get(key)
             self.logger.info(f'成功获取数据')
@@ -42,6 +80,13 @@ class RedisClient():
             return None
 
     def get_answer(self, query):
+        """?? get_answer ???
+        
+        params:
+            query: ?????
+        
+        return:
+            ??????"""
         try:
             answer = self.client.get(f'auto_loan:answer:{query}')
             if answer:

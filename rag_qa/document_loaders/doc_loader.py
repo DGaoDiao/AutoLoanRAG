@@ -20,20 +20,28 @@ class OCRDOCLoader(BaseLoader):
     """An example document loader that reads a file line by line."""
 
     def __init__(self, filepath: str) -> None:
-        """Initialize the loader with a file path.
-
-        Args:
-            filepath_path: The path to the filepath to load.
-        """
+        """?????????????
+        
+                ???
+                    filepath_path: ?????????
+        
+        params:
+            filepath: ?????
+        return:
+            ??"""
         self.filepath = filepath
 
     def lazy_load(self) -> Iterator[Document]:
         # <-- Does not take any arguments
-        """A lazy loader that reads a file line by line.
-
-        When you're implementing lazy load methods, you should use a generator
-        to yield documents one by one.
-        """
+        """?????????????
+        
+                When you're implementing lazy load methods, you should use a generator
+                to yield documents one by one.
+        
+        params:
+            ??
+        return:
+            ??????"""
 
         line = self.doc2text(self.filepath)
         yield Document(page_content=line, metadata={"source": self.filepath})
@@ -41,6 +49,13 @@ class OCRDOCLoader(BaseLoader):
     def doc2text(self, filepath):
 
         # 创建OCR识别对象
+        """?? doc2text ???
+        
+        params:
+            filepath: ?????
+        
+        return:
+            ??????"""
         ocr = get_ocr()
         # print(f'ocr--》{ocr}')  # 输出OCR对象信息
 
@@ -52,6 +67,13 @@ class OCRDOCLoader(BaseLoader):
         # 定义一个迭代器，用于遍历文档中的块（段落、表格等）
         def iter_block_items(parent):
             # 判断parent对象类型，如果是Document类型，则获取其元素
+            """?? iter_block_items ???
+            
+            params:
+                parent: ?????
+            
+            return:
+                ??????"""
             if isinstance(parent, Docu2):
                 parent_elm = parent.element.body
             # 如果是表格单元格类型，获取单元格的XML元素

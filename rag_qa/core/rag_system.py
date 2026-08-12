@@ -11,11 +11,15 @@ from rag_qa.core.vector_store import VectorStore
 
 class RAGSystem:
     def __init__(self, vector_sotre, llm):
-        '''
-        初始化RAG系统
-        :param vector_sotre: 向量数据库对象->用于存储和检索文档
-        :param llm: 大语言模型调用函数
-        '''
+        """初始化RAG系统
+                :param vector_sotre: 向量数据库对象->用于存储和检索文档
+                :param llm: 大语言模型调用函数
+        
+        params:
+            vector_sotre: ?????
+            llm: ?????
+        return:
+            ??"""
         self.vector_store = vector_sotre
         self.llm = llm
         self.rag_prompt = RAGPrompts.rag_prompt()
@@ -23,7 +27,12 @@ class RAGSystem:
         self.strategy_selector = StrategySelector()
 
     def _llm_text(self, prompt):
-        """Collect a streaming or non-streaming model response for retrieval steps."""
+        """???????????????????
+        
+        params:
+            prompt: ?????
+        return:
+            ??????"""
         response = self.llm(prompt)
         if isinstance(response, str):
             return response
@@ -31,6 +40,14 @@ class RAGSystem:
 
 
     def _retrieve_with_hyde(self,query, source_filter = None):
+        """?? _retrieve_with_hyde ???
+        
+        params:
+            query: ?????
+            source_filter: ?????
+        
+        return:
+            ??????"""
         logger.info(f"使用HyDE策略进行检索，查询'{query}'")
         hyde_prompt_template = RAGPrompts.hyde_prompt()
         try:
@@ -43,11 +60,15 @@ class RAGSystem:
             return []
 
     def _retrieve_with_subqueries(self, query, source_filter = None):
-        '''
-
-        :param query:
-        :return:
-        '''
+        """:param query:
+                        :return:
+                
+                params:
+                    query: ?????
+                    source_filter: ?????
+        
+        return:
+            ??????"""
         logger.info(f'使用子查询策略进行检索 查询: {query}')
         subquery_prompt_template = RAGPrompts.subquery_prompt()
         try:
@@ -71,6 +92,14 @@ class RAGSystem:
             return []
 
     def _retrieve_with_backtracking(self, query, source_filter = None):
+        """?? _retrieve_with_backtracking ???
+        
+        params:
+            query: ?????
+            source_filter: ?????
+        
+        return:
+            ??????"""
         logger.info(f'使用回溯策略进行检索 查询: {query}')
         backtracking_prompt = RAGPrompts.backtracking_prompt()
         try:
@@ -85,13 +114,18 @@ class RAGSystem:
             return []
 
     def retrieve(self, query, source_filter = None, strategy=None):
-        '''
-
-        :param query:
-        :param source_filter:
-        :param strategy:
-        :return:
-        '''
+        """:param query:
+                        :param source_filter:
+                        :param strategy:
+                        :return:
+                
+                params:
+                    query: ?????
+                    source_filter: ?????
+                    strategy: ?????
+        
+        return:
+            ??????"""
         if not strategy:
             strategy = self.strategy_selector.select_strategy(query)
         ranked_chunks = []
@@ -108,12 +142,18 @@ class RAGSystem:
 
     # 优化
     def generata_answer(self, query, source_filter = None, history=None):
-        '''
-        rag系统对外的核心接口 接受用户查询， 自动完成查询分类，策略选择，文档检索，答案生成 全流程
-        :param query:
-        :param source_filter:
-        :return: 生成答案的最终文本
-        '''
+        """rag系统对外的核心接口 接受用户查询， 自动完成查询分类，策略选择，文档检索，答案生成 全流程
+                        :param query:
+                        :param source_filter:
+                        :return: 生成答案的最终文本
+                
+                params:
+                    query: ?????
+                    source_filter: ?????
+                    history: ?????
+        
+        return:
+            ??????"""
         start_time = time.time()
         logger.info(f'开始处理查询: {query}, 学科过滤:{source_filter}')
 

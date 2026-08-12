@@ -24,6 +24,13 @@ class QueryClassifier:
         '新车', '二手车', '车架号', 'vin', '发动机号', '车辆评估', '购车',
     )
     def __init__(self, model_path = Config().ROOT_DIR/'model'/'bert_query_classifier' ):
+        """??????
+        
+        params:
+            model_path: ?????
+        
+        return:
+            ??"""
         self.logger = logger
         self.model_path = model_path
         self.bert_path = Config().ROOT_DIR/'model'/'bert_base_chinese'
@@ -38,10 +45,14 @@ class QueryClassifier:
         self.load_model()
 
     def load_model(self):
-        '''
-        如果有分类模型则加载，如果没有就加载一个预训练
-        :return:
-        '''
+        """如果有分类模型则加载，如果没有就加载一个预训练
+                        :return:
+                
+                params:
+                    ??
+        
+        return:
+            ??????"""
         if self.model_path.exists():
             self.model = BertForSequenceClassification.from_pretrained(self.model_path)
             self.model.to(self.device)
@@ -52,17 +63,28 @@ class QueryClassifier:
             self.logger.info(f'加载模型{self.bert_path}')
 
     def save_model(self):
+        """?? save_model ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         self.model.save_pretrained(self.model_path)
         self.tokenizer.save_pretrained(self.model_path)
         self.logger.info(f'保存模型至{self.model_path}')
 
     def preprocess_data(self, texts, labels):
-        '''
-
-        :param texts: 待处理文本列表
-        :param labels: 标签
-        :return:
-        '''
+        """:param texts: 待处理文本列表
+                        :param labels: 标签
+                        :return:
+                
+                params:
+                    texts: ?????
+                    labels: ?????
+        
+        return:
+            ??????"""
 
         encodings = self.tokenizer(texts, padding=True, truncation=True, return_tensors='pt', max_length=128)
 
@@ -70,26 +92,60 @@ class QueryClassifier:
 
     def create_dataset(self, encodings, labels):
 
+        """?? create_dataset ???
+        
+        params:
+            encodings: ?????
+            labels: ?????
+        
+        return:
+            ??????"""
         class Dataset(torch.utils.data.Dataset):
             def __init__(self, encodings, labels):
+                """??????
+                
+                params:
+                    encodings: ?????
+                    labels: ?????
+                
+                return:
+                    ??"""
                 self.encodings = encodings
                 self.labels = labels
             def __getitem__(self, idx):
+                """?? __getitem__ ???
+                
+                params:
+                    idx: ?????
+                
+                return:
+                    ??????"""
                 item = {key: val[idx] for key, val in self.encodings.items()}
                 item['labels'] = torch.tensor(self.labels[idx])
                 return item
 
             def __len__(self):
+                """?? __len__ ???
+                
+                params:
+                    ??
+                
+                return:
+                    ??????"""
                 return len(self.labels)
 
         return Dataset(encodings, labels)
 
     def train_model(self, data_file = Config().ROOT_DIR/'rag_qa'/'classify_data'/'model_generic_5000.json'):
-        '''
-        训练bert分类模型 区分通用知识，和专业查询
-        :param data_file:
-        :return:
-        '''
+        """训练bert分类模型 区分通用知识，和专业查询
+                        :param data_file:
+                        :return:
+                
+                params:
+                    data_file: ?????
+        
+        return:
+            ??????"""
         if not data_file.exists():
             logger.error(f'数据集文件{data_file}不存在')
             raise FileNotFoundError(f'数据集文件{data_file}不存在')
@@ -138,23 +194,32 @@ class QueryClassifier:
         self.evaluate_model(x_test, test_labels)
 
     def compute_metrics(self, eval_pred):
-        '''
-        计算分类任务的评估
-        :param eval_pred: 包含模型输出logits 和 真实标签
-        :return: 准确率字典
-        '''
+        """计算分类任务的评估
+                        :param eval_pred: 包含模型输出logits 和 真实标签
+                        :return: 准确率字典
+                
+                params:
+                    eval_pred: ?????
+        
+        return:
+            ??????"""
         logits, labels = eval_pred
         predictions = np.argmax(logits, axis=-1)
         accuracy = (predictions == labels).mean()
         return {'accuracy': accuracy}
 
     def evaluate_model(self, texts, labels):
-        '''
-        函数功能: 在给定文本和标签上评估模型，输出分类报告和混淆矩阵
-        :param texts: 待评估的文本列表
-        :param labels: 文本对应的真实标签
-        :return:
-        '''
+        """函数功能: 在给定文本和标签上评估模型，输出分类报告和混淆矩阵
+                        :param texts: 待评估的文本列表
+                        :param labels: 文本对应的真实标签
+                        :return:
+                
+                params:
+                    texts: ?????
+                    labels: ?????
+        
+        return:
+            ??????"""
         encodings = self.tokenizer(texts, padding=True, truncation=True, return_tensors='pt', max_length=128)
 
         # 创建评估数据集对象
@@ -176,11 +241,15 @@ class QueryClassifier:
 
     # 预测类别
     def predict_category(self, query):
-        '''
-        对单个查询进行意图识别
-        :param query: 待分类的查询文本
-        :return: 类别名称
-        '''
+        """对单个查询进行意图识别
+                        :param query: 待分类的查询文本
+                        :return: 类别名称
+                
+                params:
+                    query: ?????
+        
+        return:
+            ??????"""
         normalized_query = query.lower().strip()
         # The bundled BERT checkpoint was trained for the former education domain.
         # Use an explicit automotive-finance gate so unrelated questions never

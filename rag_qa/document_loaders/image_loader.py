@@ -8,25 +8,40 @@ class OCRIMGLoader(BaseLoader):
     """An example document loader that reads a file line by line."""
 
     def __init__(self, img_path: str) -> None:
-        """Initialize the loader with a file path.
-
-        Args:
-            img_path: The path to the img to load.
-        """
+        """?????????????
+        
+                ???
+                    img_path: ?????????
+        
+        params:
+            img_path: ?????
+        return:
+            ??"""
         self.img_path = img_path
 
     def lazy_load(self) -> Iterator[Document]:
         # <-- Does not take any arguments
-        """A lazy loader that reads a file line by line.
-
-        When you're implementing lazy load methods, you should use a generator
-        to yield documents one by one.
-        """
+        """?????????????
+        
+                When you're implementing lazy load methods, you should use a generator
+                to yield documents one by one.
+        
+        params:
+            ??
+        return:
+            ??????"""
 
         line = self.img2text()
         yield Document(page_content=line, metadata={"source": self.img_path})
 
     def img2text(self):
+        """?? img2text ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         resp = ""
         ocr = get_ocr()
         return recognize_finance_image(ocr, self.img_path)

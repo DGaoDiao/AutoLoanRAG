@@ -50,6 +50,13 @@ qa_system = None
 # 管理数据库生命周期
 @app.on_event("startup")
 async def startup():
+    """?? startup ???
+    
+    params:
+        ??
+    
+    return:
+        ??????"""
     global qa_system
     mysql_client = MySqlClient()
     mysql_client = mysql_client.__enter__()
@@ -62,6 +69,13 @@ async def startup():
 
 @app.on_event("shutdown")
 async def shutdown():
+    """?? shutdown ???
+    
+    params:
+        ??
+    
+    return:
+        ??????"""
     global qa_system
     if qa_system:
         qa_system.vector_store.client.close()
@@ -92,6 +106,13 @@ app.mount('/static', StaticFiles(directory='static'), name='static')
 @app.get('/')        # http://ip:port/
 async def get_root():
     # 返回 static目录首页下的html文件
+    """?? get_root ???
+    
+    params:
+        ??
+    
+    return:
+        ??????"""
     return FileResponse('static/index.html')
 
 
@@ -100,6 +121,13 @@ async def get_root():
 #  创建对话ID
 @app.post('/api/create_session')
 async def create_session():
+    """?? create_session ???
+    
+    params:
+        ??
+    
+    return:
+        ??????"""
     session_id = str(uuid.uuid4())
     return {'session_id': session_id}
 
@@ -107,6 +135,13 @@ async def create_session():
 # 查询历史消息
 @app.get('/api/history/{session_id}')
 async def get_history(session_id: str):
+    """?? get_history ???
+    
+    params:
+        session_id: ?????
+    
+    return:
+        ??????"""
     try:
         history = qa_system.get_session_history(session_id)
         return {'session_id': session_id, 'history': history}
@@ -116,6 +151,13 @@ async def get_history(session_id: str):
 # 根据对话ID清除历史接口
 @app.delete('/api/history/{session_id}')
 async def clear_history(session_id: str):
+    """?? clear_history ???
+    
+    params:
+        session_id: ?????
+    
+    return:
+        ??????"""
     success = qa_system.clear_session_history(session_id)
     if success:
         return {'status': success, 'message': '历史记录已清除'}
@@ -126,6 +168,13 @@ async def clear_history(session_id: str):
 # 非流式查询接口
 @app.post("/api/query")
 async def query(request: QueryRequest):
+    """?? query ???
+    
+    params:
+        request: ?????
+    
+    return:
+        ??????"""
     start_time = time.time()  # 记录开始时间
     # 使用请求中的 session_id 或生成新 ID
     session_id = request.session_id or str(uuid.uuid4())
@@ -150,6 +199,13 @@ async def query(request: QueryRequest):
 
 @app.websocket("/api/stream")
 async def websocket_endpoint(websocket: WebSocket):
+    """?? websocket_endpoint ???
+    
+    params:
+        websocket: ?????
+    
+    return:
+        ??????"""
     await websocket.accept()  # 接受 WebSocket 连接
     try:
         while True:
@@ -225,11 +281,25 @@ async def websocket_endpoint(websocket: WebSocket):
 @app.get("/health")
 async def health_check():
     # 返回健康状态标记, k8s调用该接口返回200则判断服务正常运行.
+    """?? health_check ???
+    
+    params:
+        ??
+    
+    return:
+        ??????"""
     return {"status": "healthy"}  # 返回健康状态
 
 # 获取有效知识类别接口
 @app.get("/api/sources")
 async def get_sources():
+    """?? get_sources ???
+    
+    params:
+        ??
+    
+    return:
+        ??????"""
     return {"sources": qa_system.config.APP_VALID_SOURCES}
 
 

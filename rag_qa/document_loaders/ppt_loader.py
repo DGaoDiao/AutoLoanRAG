@@ -13,26 +13,41 @@ class OCRPPTLoader(BaseLoader):
     """An example document loader that reads a file line by line."""
 
     def __init__(self, filepath: str) -> None:
-        """Initialize the loader with a file path.
-
-        Args:
-            filepath: The path to the ppt to load.
-        """
+        """?????????????
+        
+                ???
+                    filepath: ???????????
+        
+        params:
+            filepath: ?????
+        return:
+            ??"""
         self.filepath = filepath
 
     def lazy_load(self) -> Iterator[Document]:
         # <-- Does not take any arguments
-        """A lazy loader that reads a file line by line.
-
-        When you're implementing lazy load methods, you should use a generator
-        to yield documents one by one.
-        """
+        """?????????????
+        
+                When you're implementing lazy load methods, you should use a generator
+                to yield documents one by one.
+        
+        params:
+            ??
+        return:
+            ??????"""
 
         line = self.ppt2text(self.filepath)
         yield Document(page_content=line, metadata={"source": self.filepath})
 
     def ppt2text(self, filepath):
         # 打开指定路径的 PowerPoint 文件
+        """?? ppt2text ???
+        
+        params:
+            filepath: ?????
+        
+        return:
+            ??????"""
         prs = Presentation(filepath)
         print(f'prs-->{prs}')
         # 获取 OCR 功能的实例
@@ -43,6 +58,13 @@ class OCRPPTLoader(BaseLoader):
         def extract_text(shape):
             # nonlocal指明resp非全局非局部，而是外部嵌套函数中的变量，
             # 允许内部函数访问和修改外部函数中定义的变量resp
+            """?? extract_text ???
+            
+            params:
+                shape: ?????
+            
+            return:
+                ??????"""
             nonlocal resp
 
             # 检查形状是否有文本框

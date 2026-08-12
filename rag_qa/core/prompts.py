@@ -6,6 +6,13 @@ from langchain_core.prompts import PromptTemplate
 class RAGPrompts:
     @staticmethod
     def rag_prompt():
+        """?? rag_prompt ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         return PromptTemplate(
             template="""
 你是专业、审慎的汽车贷款智能顾问。请使用简体中文回答。
@@ -35,6 +42,13 @@ class RAGPrompts:
 
     @staticmethod
     def hyde_prompt():
+        """?? hyde_prompt ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         return PromptTemplate(
             template="""为下面的汽车贷款问题生成一段可能出现在正式业务资料中的简短答案，用于检索。不要虚构具体机构、利率或法规：
 问题：{query}
@@ -44,6 +58,13 @@ class RAGPrompts:
 
     @staticmethod
     def subquery_prompt():
+        """?? subquery_prompt ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         return PromptTemplate(
             template="""把下面的汽车贷款问题拆成最多3个可独立检索的子问题，每行一个，不要解释：
 问题：{query}
@@ -53,6 +74,13 @@ class RAGPrompts:
 
     @staticmethod
     def backtracking_prompt():
+        """?? backtracking_prompt ???
+        
+        params:
+            ??
+        
+        return:
+            ??????"""
         return PromptTemplate(
             template="""把下面的汽车贷款复杂问题改写成一个更基础、更适合知识库检索的问题，只输出改写结果：
 问题：{query}

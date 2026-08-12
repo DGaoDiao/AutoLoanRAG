@@ -10,6 +10,15 @@ def _split_text_with_regex_from_end(
         text: str, separator: str, keep_separator: bool
 ) -> List[str]:
     # Now that we have the separator, split the text
+    """?? _split_text_with_regex_from_end ???
+    
+    params:
+        text: ?????
+        separator: ?????
+        keep_separator: ?????
+    
+    return:
+        ??????"""
     if separator:
         if keep_separator:
             # The parentheses in the pattern keep the delimiters in the result.
@@ -33,7 +42,15 @@ class ChineseRecursiveTextSplitter(RecursiveCharacterTextSplitter):
             is_separator_regex: bool = True,
             **kwargs: Any,
     ) -> None:
-        """Create a new TextSplitter."""
+        """????????
+        
+        params:
+            separators: ?????
+            keep_separator: ?????
+            is_separator_regex: ?????
+            **kwargs: ?????
+        return:
+            ??"""
         super().__init__(keep_separator=keep_separator, **kwargs)
         self._separators = separators or [
             "\n\n",
@@ -46,7 +63,13 @@ class ChineseRecursiveTextSplitter(RecursiveCharacterTextSplitter):
         self._is_separator_regex = is_separator_regex
 
     def _split_text(self, text: str, separators: List[str]) -> List[str]:
-        """Split incoming text and return chunks."""
+        """?????????????
+        
+        params:
+            text: ?????
+            separators: ?????
+        return:
+            ??????"""
         final_chunks = []
         # Get appropriate separator to use
         separator = separators[-1]

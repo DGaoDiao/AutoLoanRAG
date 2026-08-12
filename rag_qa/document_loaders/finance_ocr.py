@@ -18,7 +18,12 @@ FINANCE_REPLACEMENTS = {
 
 
 def get_ocr(use_cuda: bool | None = None) -> "RapidOCR":
-    """Create an OCR engine, preferring Paddle on GPU and ONNX on CPU."""
+    """?? OCR ???GPU ?????? Paddle?CPU ???? ONNX?
+    
+    params:
+        use_cuda: ?????
+    return:
+        ??????"""
     if use_cuda is None:
         try:
             import torch
@@ -41,7 +46,12 @@ def get_ocr(use_cuda: bool | None = None) -> "RapidOCR":
 
 
 def preprocess_finance_image(image: Any) -> np.ndarray:
-    """Improve scans of contracts, ID/vehicle documents and repayment tables."""
+    """????????????????????????
+    
+    params:
+        image: ?????
+    return:
+        ??????"""
     if isinstance(image, str):
         image = cv2.imdecode(np.fromfile(image, dtype=np.uint8), cv2.IMREAD_COLOR)
     else:
@@ -66,7 +76,12 @@ def preprocess_finance_image(image: Any) -> np.ndarray:
 
 
 def normalize_finance_text(text: str) -> str:
-    """Normalize common OCR variants without changing financially meaningful digits."""
+    """???? OCR ???????????????????
+    
+    params:
+        text: ?????
+    return:
+        ??????"""
     text = text.replace("％", "%").replace("￥", "¥").replace("：", "：")
     text = re.sub(r"(?<=\d)\s+(?=\d)", "", text)
     text = re.sub(r"(\d)\s*[,.]\s*(\d{2})(?!\d)", r"\1.\2", text)
@@ -77,7 +92,12 @@ def normalize_finance_text(text: str) -> str:
 
 
 def extract_finance_fields(text: str) -> dict[str, str]:
-    """Extract high-value fields for retrieval; every value still requires review."""
+    """?????????????????????????
+    
+    params:
+        text: ?????
+    return:
+        ??????"""
     patterns = {
         '合同编号': r'(?:合同编号|合同号)\s*[：:]?\s*([A-Za-z0-9_-]{5,40})',
         'VIN': r'(?:VIN(?:码)?|车架号)\s*[：:]?\s*([A-HJ-NPR-Z0-9]{17})',
@@ -96,12 +116,25 @@ def extract_finance_fields(text: str) -> dict[str, str]:
 
 
 def _line_key(line: list) -> tuple[float, float]:
+    """?? _line_key ???
+    
+    params:
+        line: ?????
+    
+    return:
+        ??????"""
     box = np.asarray(line[0], dtype=float)
     return float(box[:, 1].mean()), float(box[:, 0].min())
 
 
 def format_ocr_result(result: Iterable[list] | None, min_confidence: float = 0.55) -> str:
-    """Sort OCR boxes into reading order and retain confidence-worthy text."""
+    """??????? OCR ????????????????
+    
+    params:
+        result: ?????
+        min_confidence: ?????
+    return:
+        ??????"""
     if not result:
         return ""
     accepted = []
@@ -130,6 +163,15 @@ def format_ocr_result(result: Iterable[list] | None, min_confidence: float = 0.5
 
 
 def recognize_finance_image(ocr: Any, image: Any, min_confidence: float = 0.55) -> str:
+    """?? recognize_finance_image ???
+    
+    params:
+        ocr: ?????
+        image: ?????
+        min_confidence: ?????
+    
+    return:
+        ??????"""
     processed = preprocess_finance_image(image)
     result, _ = ocr(processed)
     text = format_ocr_result(result, min_confidence=min_confidence)
