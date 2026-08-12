@@ -13,23 +13,23 @@ QA_TABLE = 'auto_loan_qa'
 
 class MySqlClient():
     def __init__(self):
-        """??????
-        
-        params:
-            ??
-        
-        return:
-            ??"""
+        """初始化对象。
+                
+                params:
+                    无。
+                
+                return:
+                    无。"""
         self.logger = logger
 
     def __enter__(self):
-        """?? __enter__ ???
-        
-        params:
-            ??
-        
-        return:
-            ??????"""
+        """执行 __enter__ 函数。
+                
+                params:
+                    无。
+                
+                return:
+                    函数返回值。"""
         try:
             #建立mysql连接
             self.connection = pymysql.connect(
@@ -48,26 +48,26 @@ class MySqlClient():
             raise e  #让调用方感知调用失败
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        """?? __exit__ ???
-        
-        params:
-            exc_type: ?????
-            exc_val: ?????
-            exc_tb: ?????
-        
-        return:
-            ??????"""
+        """执行 __exit__ 函数。
+                
+                params:
+                    exc_type: 参数说明。
+                    exc_val: 参数说明。
+                    exc_tb: 参数说明。
+                
+                return:
+                    函数返回值。"""
         self.cursor.close()
         self.connection.close()
 
     def __existing_detection(self):
-        """?? __existing_detection ???
-        
-        params:
-            ??
-        
-        return:
-            ??????"""
+        """执行 __existing_detection 函数。
+                
+                params:
+                    无。
+                
+                return:
+                    函数返回值。"""
         if not self.connection:
             self.logger.error('数据库未连接')
             return False
@@ -75,13 +75,13 @@ class MySqlClient():
 
 
     def create_table(self):
-        """?? create_table ???
-        
-        params:
-            ??
-        
-        return:
-            ??????"""
+        """执行 create_table 函数。
+                
+                params:
+                    无。
+                
+                return:
+                    函数返回值。"""
         if not self.__existing_detection():
             return
         query = """
@@ -101,13 +101,13 @@ class MySqlClient():
             raise e
 
     def insert_data(self, data_path):
-        """?? insert_data ???
-        
-        params:
-            data_path: ?????
-        
-        return:
-            ??????"""
+        """执行 insert_data 函数。
+                
+                params:
+                    data_path: 参数说明。
+                
+                return:
+                    函数返回值。"""
         if not self.__existing_detection():
             return
         try:
@@ -128,23 +128,23 @@ class MySqlClient():
             raise
 
     def seed_auto_loan_data(self):
-        """??????????????????????
-        
-        params:
-            ??
-        return:
-            ??????"""
+        """执行 seed_auto_loan_data 函数。
+                
+                params:
+                    无。
+                return:
+                    函数返回值。"""
         if AUTO_LOAN_DATA_PATH.exists():
             self.insert_data(AUTO_LOAN_DATA_PATH)
 
     def fetch_question(self):
-        """?? fetch_question ???
-        
-        params:
-            ??
-        
-        return:
-            ??????"""
+        """执行 fetch_question 函数。
+                
+                params:
+                    无。
+                
+                return:
+                    函数返回值。"""
         if not self.__existing_detection():
             return
         try:
@@ -157,13 +157,13 @@ class MySqlClient():
             return []
 
     def fetch_answer(self, question):
-        """?? fetch_answer ???
-        
-        params:
-            question: ?????
-        
-        return:
-            ??????"""
+        """执行 fetch_answer 函数。
+                
+                params:
+                    question: 参数说明。
+                
+                return:
+                    函数返回值。"""
         if not self.__existing_detection():
             return
         try:

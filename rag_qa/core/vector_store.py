@@ -22,16 +22,16 @@ class VectorStore:
                  port = config.MILVUS_PORT,
                  database = config.MILVUS_DATABASE,
                  ):
-        """??????
-        
-        params:
-            collection_name: ?????
-            host: ?????
-            port: ?????
-            database: ?????
-        
-        return:
-            ??"""
+        """初始化对象。
+                
+                params:
+                    collection_name: 参数说明。
+                    host: 参数说明。
+                    port: 参数说明。
+                    database: 参数说明。
+                
+                return:
+                    无。"""
         self.collection_name = collection_name
         self.host = host
         self.port = port
@@ -49,13 +49,13 @@ class VectorStore:
 
 
     def __enter__(self):
-        """?? __enter__ ???
-        
-        params:
-            ??
-        
-        return:
-            ??????"""
+        """执行 __enter__ 函数。
+                
+                params:
+                    无。
+                
+                return:
+                    函数返回值。"""
         uri = f"http://{self.host}:{self.port}"
         bootstrap_client = MilvusClient(uri=uri)
         try:
@@ -69,27 +69,27 @@ class VectorStore:
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        """?? __exit__ ???
-        
-        params:
-            exc_type: ?????
-            exc_val: ?????
-            exc_tb: ?????
-        
-        return:
-            ??????"""
+        """执行 __exit__ 函数。
+                
+                params:
+                    exc_type: 参数说明。
+                    exc_val: 参数说明。
+                    exc_tb: 参数说明。
+                
+                return:
+                    函数返回值。"""
         self.client.close()
         self.logger.info(f'已关闭客户端，释放资源')
 
     def _create_or_load(self):
         # 检查指定集合是否存在
-        """?? _create_or_load ???
-        
-        params:
-            ??
-        
-        return:
-            ??????"""
+        """执行 _create_or_load 函数。
+                
+                params:
+                    无。
+                
+                return:
+                    函数返回值。"""
         if not self.client.has_collection(self.collection_name):
             schema = self.client.create_schema(auto_id=False, enable_dynamic_field=False)
             schema.add_field(field_name='id', datatype=DataType.VARCHAR, is_primary=True, max_length=100)
@@ -125,13 +125,13 @@ class VectorStore:
     # 将子块转成向量加入数据库
     def add_document(self, documents):
         # 提取所有文档内容 用bge-m3词嵌入
-        """?? add_document ???
-        
-        params:
-            documents: ?????
-        
-        return:
-            ??????"""
+        """执行 add_document 函数。
+                
+                params:
+                    documents: 参数说明。
+                
+                return:
+                    函数返回值。"""
         texts = [doc.page_content for doc in documents]
 
         embeddings = self.embedding_function(texts)
@@ -175,20 +175,20 @@ class VectorStore:
     # 混合检索
     def hybrid_search(self, query, k=config.RETRIEVAL_RETRIEVAL_K, m=config.RETRIEVAL_CANDIDATE_M, source_filter = None):
         """该函数用于执行混合检索+结果重排序,返回精准父文档
-                        :param query: 用户查询文本
-                        :param k: 混合解锁返回TopK子块数量
-                        :param m:
-                        :param source_filter: 学科过滤条件
-                        :return: 返回重排序后的top-m个父文档
+                                :param query: 用户查询文本
+                                :param k: 混合解锁返回TopK子块数量
+                                :param m:
+                                :param source_filter: 学科过滤条件
+                                :return: 返回重排序后的top-m个父文档
+                        
+                        params:
+                            query: 参数说明。
+                            k: 参数说明。
+                            m: 参数说明。
+                            source_filter: 参数说明。
                 
-                params:
-                    query: ?????
-                    k: ?????
-                    m: ?????
-                    source_filter: ?????
-        
-        return:
-            ??????"""
+                return:
+                    函数返回值。"""
         query_embeddings = self.embedding_function([query])
         dense_query_vector = query_embeddings['dense'][0]
         dense_query_vector = dense_query_vector.astype(np.float32)
@@ -253,13 +253,13 @@ class VectorStore:
 
     # 拿到父块
     def _get_unique_parent_docs(self, sub_chunks):
-        """?? _get_unique_parent_docs ???
-        
-        params:
-            sub_chunks: ?????
-        
-        return:
-            ??????"""
+        """执行 _get_unique_parent_docs 函数。
+                
+                params:
+                    sub_chunks: 参数说明。
+                
+                return:
+                    函数返回值。"""
         parent_contents = set()
         unique_docs = []
         for chunk in sub_chunks:
@@ -271,13 +271,13 @@ class VectorStore:
 
     # 把父块转成 langchain document对象
     def _doc_from_hit(self, hit):
-        """?? _doc_from_hit ???
-        
-        params:
-            hit: ?????
-        
-        return:
-            ??????"""
+        """执行 _doc_from_hit 函数。
+                
+                params:
+                    hit: 参数说明。
+                
+                return:
+                    函数返回值。"""
         return Document(
             page_content=hit.get('text'),
             metadata={

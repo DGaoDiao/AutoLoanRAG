@@ -23,14 +23,14 @@ document_loaders = {
 
 def load_document_from_directory(path:str):
     """从指定目录加载所有支持类型的文件，把每个文档添加到数据库
-            :param path: 目标绝对路径
-            :return: 加载完成的文档列表 为每个元素添加 Langchain Document对象含 page_content 和 meta_data
+                :param path: 目标绝对路径
+                :return: 加载完成的文档列表 为每个元素添加 Langchain Document对象含 page_content 和 meta_data
+            
+            params:
+                path: 参数说明。
         
-        params:
-            path: ?????
-    
-    return:
-        ??????"""
+        return:
+            函数返回值。"""
 
     documents = []
 
@@ -68,20 +68,20 @@ def load_document_from_directory(path:str):
 
 def process_document(path, parent_chunk_size=config.RETRIEVAL_PARENT_CHUNK_SIZE, child_chunk_size=config.RETRIEVAL_CHILD_CHUNK_SIZE, chunk_overlap=config.RETRIEVAL_CHUNK_OVERLAP):
     """:param path: 文档目录路径
-            :param parent_chunk_size: 父块切分长度
-            :param child_chunk_size:  子块切分长度
-            :param chunk_overlap:  子块重叠长度
-            :return:
-                    child_chunk 每个子块包含父块的信息
+                :param parent_chunk_size: 父块切分长度
+                :param child_chunk_size:  子块切分长度
+                :param chunk_overlap:  子块重叠长度
+                :return:
+                        child_chunk 每个子块包含父块的信息
+            
+            params:
+                path: 参数说明。
+                parent_chunk_size: 参数说明。
+                child_chunk_size: 参数说明。
+                chunk_overlap: 参数说明。
         
-        params:
-            path: ?????
-            parent_chunk_size: ?????
-            child_chunk_size: ?????
-            chunk_overlap: ?????
-    
-    return:
-        ??????"""
+        return:
+            函数返回值。"""
 
     documents = load_document_from_directory(path)
 

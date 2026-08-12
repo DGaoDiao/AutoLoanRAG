@@ -18,12 +18,12 @@ FINANCE_REPLACEMENTS = {
 
 
 def get_ocr(use_cuda: bool | None = None) -> "RapidOCR":
-    """?? OCR ???GPU ?????? Paddle?CPU ???? ONNX?
-    
-    params:
-        use_cuda: ?????
-    return:
-        ??????"""
+    """执行 get_ocr 函数。
+        
+        params:
+            use_cuda: 参数说明。
+        return:
+            函数返回值。"""
     if use_cuda is None:
         try:
             import torch
@@ -46,12 +46,12 @@ def get_ocr(use_cuda: bool | None = None) -> "RapidOCR":
 
 
 def preprocess_finance_image(image: Any) -> np.ndarray:
-    """????????????????????????
-    
-    params:
-        image: ?????
-    return:
-        ??????"""
+    """执行 preprocess_finance_image 函数。
+        
+        params:
+            image: 参数说明。
+        return:
+            函数返回值。"""
     if isinstance(image, str):
         image = cv2.imdecode(np.fromfile(image, dtype=np.uint8), cv2.IMREAD_COLOR)
     else:
@@ -76,12 +76,12 @@ def preprocess_finance_image(image: Any) -> np.ndarray:
 
 
 def normalize_finance_text(text: str) -> str:
-    """???? OCR ???????????????????
-    
-    params:
-        text: ?????
-    return:
-        ??????"""
+    """执行 normalize_finance_text 函数。
+        
+        params:
+            text: 参数说明。
+        return:
+            函数返回值。"""
     text = text.replace("％", "%").replace("￥", "¥").replace("：", "：")
     text = re.sub(r"(?<=\d)\s+(?=\d)", "", text)
     text = re.sub(r"(\d)\s*[,.]\s*(\d{2})(?!\d)", r"\1.\2", text)
@@ -92,12 +92,12 @@ def normalize_finance_text(text: str) -> str:
 
 
 def extract_finance_fields(text: str) -> dict[str, str]:
-    """?????????????????????????
-    
-    params:
-        text: ?????
-    return:
-        ??????"""
+    """执行 extract_finance_fields 函数。
+        
+        params:
+            text: 参数说明。
+        return:
+            函数返回值。"""
     patterns = {
         '合同编号': r'(?:合同编号|合同号)\s*[：:]?\s*([A-Za-z0-9_-]{5,40})',
         'VIN': r'(?:VIN(?:码)?|车架号)\s*[：:]?\s*([A-HJ-NPR-Z0-9]{17})',
@@ -116,25 +116,25 @@ def extract_finance_fields(text: str) -> dict[str, str]:
 
 
 def _line_key(line: list) -> tuple[float, float]:
-    """?? _line_key ???
-    
-    params:
-        line: ?????
-    
-    return:
-        ??????"""
+    """执行 _line_key 函数。
+        
+        params:
+            line: 参数说明。
+        
+        return:
+            函数返回值。"""
     box = np.asarray(line[0], dtype=float)
     return float(box[:, 1].mean()), float(box[:, 0].min())
 
 
 def format_ocr_result(result: Iterable[list] | None, min_confidence: float = 0.55) -> str:
-    """??????? OCR ????????????????
-    
-    params:
-        result: ?????
-        min_confidence: ?????
-    return:
-        ??????"""
+    """执行 format_ocr_result 函数。
+        
+        params:
+            result: 参数说明。
+            min_confidence: 参数说明。
+        return:
+            函数返回值。"""
     if not result:
         return ""
     accepted = []
@@ -163,15 +163,15 @@ def format_ocr_result(result: Iterable[list] | None, min_confidence: float = 0.5
 
 
 def recognize_finance_image(ocr: Any, image: Any, min_confidence: float = 0.55) -> str:
-    """?? recognize_finance_image ???
-    
-    params:
-        ocr: ?????
-        image: ?????
-        min_confidence: ?????
-    
-    return:
-        ??????"""
+    """执行 recognize_finance_image 函数。
+        
+        params:
+            ocr: 参数说明。
+            image: 参数说明。
+            min_confidence: 参数说明。
+        
+        return:
+            函数返回值。"""
     processed = preprocess_finance_image(image)
     result, _ = ocr(processed)
     text = format_ocr_result(result, min_confidence=min_confidence)

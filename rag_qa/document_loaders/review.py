@@ -22,13 +22,13 @@ from pptx import Presentation
 
 def ppt2text(filepath):
     # 打开指定路径的 PowerPoint 文件
-    """?? ppt2text ???
-    
-    params:
-        filepath: ?????
-    
-    return:
-        ??????"""
+    """执行 ppt2text 函数。
+        
+        params:
+            filepath: 参数说明。
+        
+        return:
+            函数返回值。"""
     prs = Presentation(filepath)
     resp = ''
     for slide_number, slide in enumerate(prs.slides, start=1):

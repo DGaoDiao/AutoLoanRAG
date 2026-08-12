@@ -20,28 +20,28 @@ class OCRDOCLoader(BaseLoader):
     """An example document loader that reads a file line by line."""
 
     def __init__(self, filepath: str) -> None:
-        """?????????????
-        
-                ???
-                    filepath_path: ?????????
-        
-        params:
-            filepath: ?????
-        return:
-            ??"""
+        """初始化对象。
+                
+                        初始化对象。
+                            初始化对象。
+                
+                params:
+                    filepath: 参数说明。
+                return:
+                    无。"""
         self.filepath = filepath
 
     def lazy_load(self) -> Iterator[Document]:
         # <-- Does not take any arguments
-        """?????????????
-        
-                When you're implementing lazy load methods, you should use a generator
-                to yield documents one by one.
-        
-        params:
-            ??
-        return:
-            ??????"""
+        """执行 lazy_load 函数。
+                
+                        When you're implementing lazy load methods, you should use a generator
+                        to yield documents one by one.
+                
+                params:
+                    无。
+                return:
+                    函数返回值。"""
 
         line = self.doc2text(self.filepath)
         yield Document(page_content=line, metadata={"source": self.filepath})
@@ -49,13 +49,13 @@ class OCRDOCLoader(BaseLoader):
     def doc2text(self, filepath):
 
         # 创建OCR识别对象
-        """?? doc2text ???
-        
-        params:
-            filepath: ?????
-        
-        return:
-            ??????"""
+        """执行 doc2text 函数。
+                
+                params:
+                    filepath: 参数说明。
+                
+                return:
+                    函数返回值。"""
         ocr = get_ocr()
         # print(f'ocr--》{ocr}')  # 输出OCR对象信息
 
@@ -67,13 +67,13 @@ class OCRDOCLoader(BaseLoader):
         # 定义一个迭代器，用于遍历文档中的块（段落、表格等）
         def iter_block_items(parent):
             # 判断parent对象类型，如果是Document类型，则获取其元素
-            """?? iter_block_items ???
-            
-            params:
-                parent: ?????
-            
-            return:
-                ??????"""
+            """执行 iter_block_items 函数。
+                        
+                        params:
+                            parent: 参数说明。
+                        
+                        return:
+                            函数返回值。"""
             if isinstance(parent, Docu2):
                 parent_elm = parent.element.body
             # 如果是表格单元格类型，获取单元格的XML元素

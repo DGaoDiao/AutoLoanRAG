@@ -13,41 +13,41 @@ class OCRPPTLoader(BaseLoader):
     """An example document loader that reads a file line by line."""
 
     def __init__(self, filepath: str) -> None:
-        """?????????????
-        
-                ???
-                    filepath: ???????????
-        
-        params:
-            filepath: ?????
-        return:
-            ??"""
+        """初始化对象。
+                
+                        初始化对象。
+                            初始化对象。
+                
+                params:
+                    filepath: 参数说明。
+                return:
+                    无。"""
         self.filepath = filepath
 
     def lazy_load(self) -> Iterator[Document]:
         # <-- Does not take any arguments
-        """?????????????
-        
-                When you're implementing lazy load methods, you should use a generator
-                to yield documents one by one.
-        
-        params:
-            ??
-        return:
-            ??????"""
+        """执行 lazy_load 函数。
+                
+                        When you're implementing lazy load methods, you should use a generator
+                        to yield documents one by one.
+                
+                params:
+                    无。
+                return:
+                    函数返回值。"""
 
         line = self.ppt2text(self.filepath)
         yield Document(page_content=line, metadata={"source": self.filepath})
 
     def ppt2text(self, filepath):
         # 打开指定路径的 PowerPoint 文件
-        """?? ppt2text ???
-        
-        params:
-            filepath: ?????
-        
-        return:
-            ??????"""
+        """执行 ppt2text 函数。
+                
+                params:
+                    filepath: 参数说明。
+                
+                return:
+                    函数返回值。"""
         prs = Presentation(filepath)
         print(f'prs-->{prs}')
         # 获取 OCR 功能的实例
@@ -58,13 +58,13 @@ class OCRPPTLoader(BaseLoader):
         def extract_text(shape):
             # nonlocal指明resp非全局非局部，而是外部嵌套函数中的变量，
             # 允许内部函数访问和修改外部函数中定义的变量resp
-            """?? extract_text ???
-            
-            params:
-                shape: ?????
-            
-            return:
-                ??????"""
+            """执行 extract_text 函数。
+                        
+                        params:
+                            shape: 参数说明。
+                        
+                        return:
+                            函数返回值。"""
             nonlocal resp
 
             # 检查形状是否有文本框

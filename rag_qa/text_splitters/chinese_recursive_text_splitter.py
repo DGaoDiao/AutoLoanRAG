@@ -10,15 +10,15 @@ def _split_text_with_regex_from_end(
         text: str, separator: str, keep_separator: bool
 ) -> List[str]:
     # Now that we have the separator, split the text
-    """?? _split_text_with_regex_from_end ???
-    
-    params:
-        text: ?????
-        separator: ?????
-        keep_separator: ?????
-    
-    return:
-        ??????"""
+    """执行 _split_text_with_regex_from_end 函数。
+        
+        params:
+            text: 参数说明。
+            separator: 参数说明。
+            keep_separator: 参数说明。
+        
+        return:
+            函数返回值。"""
     if separator:
         if keep_separator:
             # The parentheses in the pattern keep the delimiters in the result.
@@ -42,15 +42,15 @@ class ChineseRecursiveTextSplitter(RecursiveCharacterTextSplitter):
             is_separator_regex: bool = True,
             **kwargs: Any,
     ) -> None:
-        """????????
-        
-        params:
-            separators: ?????
-            keep_separator: ?????
-            is_separator_regex: ?????
-            **kwargs: ?????
-        return:
-            ??"""
+        """初始化对象。
+                
+                params:
+                    separators: 参数说明。
+                    keep_separator: 参数说明。
+                    is_separator_regex: 参数说明。
+                    **kwargs: 参数说明。
+                return:
+                    无。"""
         super().__init__(keep_separator=keep_separator, **kwargs)
         self._separators = separators or [
             "\n\n",
@@ -63,13 +63,13 @@ class ChineseRecursiveTextSplitter(RecursiveCharacterTextSplitter):
         self._is_separator_regex = is_separator_regex
 
     def _split_text(self, text: str, separators: List[str]) -> List[str]:
-        """?????????????
-        
-        params:
-            text: ?????
-            separators: ?????
-        return:
-            ??????"""
+        """执行 _split_text 函数。
+                
+                params:
+                    text: 参数说明。
+                    separators: 参数说明。
+                return:
+                    函数返回值。"""
         final_chunks = []
         # Get appropriate separator to use
         separator = separators[-1]

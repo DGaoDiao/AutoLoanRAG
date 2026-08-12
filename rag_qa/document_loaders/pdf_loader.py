@@ -27,40 +27,40 @@ class OCRPDFLoader(BaseLoader):
     """An example document loader that reads a file line by line."""
 
     def __init__(self, file_path: str) -> None:
-        """?????????????
-        
-                ???
-                    file_path: ?????????
-        
-        params:
-            file_path: ?????
-        return:
-            ??"""
+        """初始化对象。
+                
+                        初始化对象。
+                            初始化对象。
+                
+                params:
+                    file_path: 参数说明。
+                return:
+                    无。"""
         self.file_path = file_path
 
     def lazy_load(self) -> Iterator[Document]:
         # <-- Does not take any arguments
-        """?????????????
-        
-                When you're implementing lazy load methods, you should use a generator
-                to yield documents one by one.
-        
-        params:
-            ??
-        return:
-            ??????"""
+        """执行 lazy_load 函数。
+                
+                        When you're implementing lazy load methods, you should use a generator
+                        to yield documents one by one.
+                
+                params:
+                    无。
+                return:
+                    函数返回值。"""
 
         line = self.pdf2text()
         yield Document(page_content=line, metadata={"source": self.file_path})
 
     def pdf2text(self):
-        """?? pdf2text ???
-        
-        params:
-            ??
-        
-        return:
-            ??????"""
+        """执行 pdf2text 函数。
+                
+                params:
+                    无。
+                
+                return:
+                    函数返回值。"""
         ocr = get_ocr()
         # 打开pdf文件
         doc = fitz.open(self.file_path)
@@ -115,15 +115,15 @@ class OCRPDFLoader(BaseLoader):
         return resp
 
     def rotate_img(self, img, angle):
-        """img -- ????
-                angle -- ????
-                return -- ??????
-        
-        params:
-            img: ?????
-            angle: ?????
-        return:
-            ??????"""
+        """执行 rotate_img 函数。
+                        执行 rotate_img 函数。
+                        执行 rotate_img 函数。
+                
+                params:
+                    img: 参数说明。
+                    angle: 参数说明。
+                return:
+                    函数返回值。"""
 
         h, w = img.shape[:2]
         rotate_center = (w / 2, h / 2)

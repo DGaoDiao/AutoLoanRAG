@@ -15,15 +15,15 @@ import uuid
 
 class IntegratedQASystem:
     def __init__(self, mysql_client, redis_client, vector_store):
-        """??????
-        
-        params:
-            mysql_client: ?????
-            redis_client: ?????
-            vector_store: ?????
-        
-        return:
-            ??"""
+        """初始化对象。
+                
+                params:
+                    mysql_client: 参数说明。
+                    redis_client: 参数说明。
+                    vector_store: 参数说明。
+                
+                return:
+                    无。"""
         self.logger = logger
         self.config = Config()
         self.mysql_client = mysql_client
@@ -48,13 +48,13 @@ class IntegratedQASystem:
 
     def init_conversation_table(self):
         """初始化MySQL中的Conversation表, 用于存储历史对话
-                        :return:
+                                :return:
+                        
+                        params:
+                            无。
                 
-                params:
-                    ??
-        
-        return:
-            ??????"""
+                return:
+                    函数返回值。"""
         try:
             self.mysql_client.cursor.execute('''
                 CREATE TABLE IF NOT EXISTS conversations(
@@ -71,13 +71,13 @@ class IntegratedQASystem:
             self.logger.error(f'创建对话表失败 {e}')
 
     def call_dashscope(self, query):
-        """?? call_dashscope ???
-        
-        params:
-            query: ?????
-        
-        return:
-            ??????"""
+        """执行 call_dashscope 函数。
+                
+                params:
+                    query: 参数说明。
+                
+                return:
+                    函数返回值。"""
         try:
             completion = self.client.chat.completions.create(
                 model=Config().LLM_MODEL,
@@ -99,14 +99,14 @@ class IntegratedQASystem:
 
     # 优化 获取最近聊天记录的内部方法
     def _fetch_recent_history(self, session_id, limit = Config().MYSQL_LIMIT):
-        """?? _fetch_recent_history ???
-        
-        params:
-            session_id: ?????
-            limit: ?????
-        
-        return:
-            ??????"""
+        """执行 _fetch_recent_history 函数。
+                
+                params:
+                    session_id: 参数说明。
+                    limit: 参数说明。
+                
+                return:
+                    函数返回值。"""
         try:
             self.mysql_client.cursor.execute('''
                 SELECT question, answer
@@ -124,30 +124,30 @@ class IntegratedQASystem:
 
     #优化 对外拿对话历史
     def get_session_history(self, session_id):
-        """?? get_session_history ???
-        
-        params:
-            session_id: ?????
-        
-        return:
-            ??????"""
+        """执行 get_session_history 函数。
+                
+                params:
+                    session_id: 参数说明。
+                
+                return:
+                    函数返回值。"""
         return self._fetch_recent_history(session_id)
 
     # 优化 更新会话历史
     def update_session_history(self, session_id, question, answer) -> list:
         """更新会话历史 只保留最近的limit轮
-                        :param session_id: 会话的唯一标识
-                        :param question:  用户的问题
-                        :param answer:    问题的答案
-                        :return:
+                                :param session_id: 会话的唯一标识
+                                :param question:  用户的问题
+                                :param answer:    问题的答案
+                                :return:
+                        
+                        params:
+                            session_id: 参数说明。
+                            question: 参数说明。
+                            answer: 参数说明。
                 
-                params:
-                    session_id: ?????
-                    question: ?????
-                    answer: ?????
-        
-        return:
-            ??????"""
+                return:
+                    函数返回值。"""
         try:
             self.mysql_client.cursor.execute('''
                  INSERT INTO conversations(session_id, question, answer,created_at)
@@ -178,13 +178,13 @@ class IntegratedQASystem:
 
     #清除指定id的素有会话历史
     def clear_session_history(self, session_id):
-        """?? clear_session_history ???
-        
-        params:
-            session_id: ?????
-        
-        return:
-            ??????"""
+        """执行 clear_session_history 函数。
+                
+                params:
+                    session_id: 参数说明。
+                
+                return:
+                    函数返回值。"""
         try:
             self.mysql_client.cursor.execute('''
             DELETE FROM conversations WHERE session_id = %s
@@ -200,17 +200,17 @@ class IntegratedQASystem:
 
     def query(self, query, source_filter = None, session_id = None):
         """先查mysql和bm25 如果没有就走 RAG
-                        :param query:用户的问题
-                        :param source_filter:来源过滤条件
-                        :return:
+                                :param query:用户的问题
+                                :param source_filter:来源过滤条件
+                                :return:
+                        
+                        params:
+                            query: 参数说明。
+                            source_filter: 参数说明。
+                            session_id: 参数说明。
                 
-                params:
-                    query: ?????
-                    source_filter: ?????
-                    session_id: ?????
-        
-        return:
-            ??????"""
+                return:
+                    函数返回值。"""
         start_time = time.time()
         if source_filter not in (None, *self.config.APP_VALID_SOURCES):
             self.logger.warning(f'忽略无效的汽车金融知识类别: {source_filter}')
@@ -251,13 +251,13 @@ class IntegratedQASystem:
 
 def main():
     """系统入口 用户可以输入问题和来源
-            :return: 空
+                :return: 空
+            
+            params:
+                无。
         
-        params:
-            ??
-    
-    return:
-        ??????"""
+        return:
+            函数返回值。"""
     session_id = str(uuid.uuid4())
     with MySqlClient() as mysql_client:
         with RedisClient() as redis_client:

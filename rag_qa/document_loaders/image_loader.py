@@ -8,40 +8,40 @@ class OCRIMGLoader(BaseLoader):
     """An example document loader that reads a file line by line."""
 
     def __init__(self, img_path: str) -> None:
-        """?????????????
-        
-                ???
-                    img_path: ?????????
-        
-        params:
-            img_path: ?????
-        return:
-            ??"""
+        """初始化对象。
+                
+                        初始化对象。
+                            初始化对象。
+                
+                params:
+                    img_path: 参数说明。
+                return:
+                    无。"""
         self.img_path = img_path
 
     def lazy_load(self) -> Iterator[Document]:
         # <-- Does not take any arguments
-        """?????????????
-        
-                When you're implementing lazy load methods, you should use a generator
-                to yield documents one by one.
-        
-        params:
-            ??
-        return:
-            ??????"""
+        """执行 lazy_load 函数。
+                
+                        When you're implementing lazy load methods, you should use a generator
+                        to yield documents one by one.
+                
+                params:
+                    无。
+                return:
+                    函数返回值。"""
 
         line = self.img2text()
         yield Document(page_content=line, metadata={"source": self.img_path})
 
     def img2text(self):
-        """?? img2text ???
-        
-        params:
-            ??
-        
-        return:
-            ??????"""
+        """执行 img2text 函数。
+                
+                params:
+                    无。
+                
+                return:
+                    函数返回值。"""
         resp = ""
         ocr = get_ocr()
         return recognize_finance_image(ocr, self.img_path)

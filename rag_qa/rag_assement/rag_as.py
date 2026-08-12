@@ -40,14 +40,14 @@ DEFAULT_RESULT_CSV = ASSESSMENT_DIR / "ragas_result.csv"
 
 
 def load_cases(path: Path, limit: int | None = None) -> list[dict[str, Any]]:
-    """?? load_cases ???
-    
-    params:
-        path: ?????
-        limit: ?????
-    
-    return:
-        ??????"""
+    """执行 load_cases 函数。
+        
+        params:
+            path: 参数说明。
+            limit: 参数说明。
+        
+        return:
+            函数返回值。"""
     with path.open("r", encoding="utf-8") as file:
         cases = json.load(file)
     required = {"id", "question", "reference", "source_filter"}
@@ -59,15 +59,15 @@ def load_cases(path: Path, limit: int | None = None) -> list[dict[str, Any]]:
 
 
 def generate_answer(client: OpenAI, prompt: str, model: str) -> str:
-    """?? generate_answer ???
-    
-    params:
-        client: ?????
-        prompt: ?????
-        model: ?????
-    
-    return:
-        ??????"""
+    """执行 generate_answer 函数。
+        
+        params:
+            client: 参数说明。
+            prompt: 参数说明。
+            model: 参数说明。
+        
+        return:
+            函数返回值。"""
     response = client.chat.completions.create(
         model=model,
         messages=[
@@ -81,13 +81,13 @@ def generate_answer(client: OpenAI, prompt: str, model: str) -> str:
 
 
 def run_rag(cases: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """?? run_rag ???
-    
-    params:
-        cases: ?????
-    
-    return:
-        ??????"""
+    """执行 run_rag 函数。
+        
+        params:
+            cases: 参数说明。
+        
+        return:
+            函数返回值。"""
     config = Config()
     client = OpenAI(
         api_key=config.LLM_DASHSCOPE_API_KEY,
@@ -126,13 +126,13 @@ def run_rag(cases: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def build_ragas_dataset(records: list[dict[str, Any]]) -> Dataset:
-    """?? build_ragas_dataset ???
-    
-    params:
-        records: ?????
-    
-    return:
-        ??????"""
+    """执行 build_ragas_dataset 函数。
+        
+        params:
+            records: 参数说明。
+        
+        return:
+            函数返回值。"""
     return Dataset.from_dict(
         {
             "user_input": [record["question"] for record in records],
@@ -144,26 +144,26 @@ def build_ragas_dataset(records: list[dict[str, Any]]) -> Dataset:
 
 
 def save_json(path: Path, value: Any) -> None:
-    """?? save_json ???
-    
-    params:
-        path: ?????
-        value: ?????
-    
-    return:
-        ??????"""
+    """执行 save_json 函数。
+        
+        params:
+            path: 参数说明。
+            value: 参数说明。
+        
+        return:
+            函数返回值。"""
     with path.open("w", encoding="utf-8") as file:
         json.dump(value, file, ensure_ascii=False, indent=2)
 
 
 def main() -> None:
-    """?? main ???
-    
-    params:
-        ??
-    
-    return:
-        ??????"""
+    """执行 main 函数。
+        
+        params:
+            无。
+        
+        return:
+            函数返回值。"""
     parser = argparse.ArgumentParser(description="Run local RAGAS evaluation")
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET)
     parser.add_argument("--limit", type=int, default=None)

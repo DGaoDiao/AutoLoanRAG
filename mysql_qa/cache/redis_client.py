@@ -7,23 +7,23 @@ from base.config import Config
 
 class RedisClient():
     def __init__(self):
-        """??????
-        
-        params:
-            ??
-        
-        return:
-            ??"""
+        """初始化对象。
+                
+                params:
+                    无。
+                
+                return:
+                    无。"""
         self.logger = logger
 
     def __enter__(self):
-        """?? __enter__ ???
-        
-        params:
-            ??
-        
-        return:
-            ??????"""
+        """执行 __enter__ 函数。
+                
+                params:
+                    无。
+                
+                return:
+                    函数返回值。"""
         try:
             self.client = redis.StrictRedis(
                 host=Config().REDIS_HOST,
@@ -37,26 +37,26 @@ class RedisClient():
             raise
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        """?? __exit__ ???
-        
-        params:
-            exc_type: ?????
-            exc_val: ?????
-            exc_tb: ?????
-        
-        return:
-            ??????"""
+        """执行 __exit__ 函数。
+                
+                params:
+                    exc_type: 参数说明。
+                    exc_val: 参数说明。
+                    exc_tb: 参数说明。
+                
+                return:
+                    函数返回值。"""
         self.client.close()
 
     def set_data(self, key, value):
-        """?? set_data ???
-        
-        params:
-            key: ?????
-            value: ?????
-        
-        return:
-            ??????"""
+        """执行 set_data 函数。
+                
+                params:
+                    key: 参数说明。
+                    value: 参数说明。
+                
+                return:
+                    函数返回值。"""
         try:
             self.client.set(key, json.dumps(value, ensure_ascii=False))
             self.logger.info(f'Redis存储成功 {key}')
@@ -64,13 +64,13 @@ class RedisClient():
             self.logger.error(f'Redis存储失败 {e}')
 
     def get_data(self, key):
-        """?? get_data ???
-        
-        params:
-            key: ?????
-        
-        return:
-            ??????"""
+        """执行 get_data 函数。
+                
+                params:
+                    key: 参数说明。
+                
+                return:
+                    函数返回值。"""
         try:
             data = self.client.get(key)
             self.logger.info(f'成功获取数据')
@@ -80,13 +80,13 @@ class RedisClient():
             return None
 
     def get_answer(self, query):
-        """?? get_answer ???
-        
-        params:
-            query: ?????
-        
-        return:
-            ??????"""
+        """执行 get_answer 函数。
+                
+                params:
+                    query: 参数说明。
+                
+                return:
+                    函数返回值。"""
         try:
             answer = self.client.get(f'auto_loan:answer:{query}')
             if answer:

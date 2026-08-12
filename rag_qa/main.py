@@ -12,18 +12,18 @@ config = Config()
 
 def main(query_mode = True, directory_path = Config().ROOT_DIR/'rag_qa'/'data'):
     """函数功能: 系统主函数，控制两种运行模式
-                数据处理模式: query_mode = False 解析指定目录的文档，分割未文档块并存入向量数据库
-                交互式查询模式: query_mode = True 接受用户问题，调用RAG系统生成答案并展示
-            :param query_mode:
-            :param directory_path: 需要处理的文档所在路径
-            :return:
+                    数据处理模式: query_mode = False 解析指定目录的文档，分割未文档块并存入向量数据库
+                    交互式查询模式: query_mode = True 接受用户问题，调用RAG系统生成答案并展示
+                :param query_mode:
+                :param directory_path: 需要处理的文档所在路径
+                :return:
+            
+            params:
+                query_mode: 参数说明。
+                directory_path: 参数说明。
         
-        params:
-            query_mode: ?????
-            directory_path: ?????
-    
-    return:
-        ??????"""
+        return:
+            函数返回值。"""
 
     try:
         client = OpenAI(
@@ -41,13 +41,13 @@ def main(query_mode = True, directory_path = Config().ROOT_DIR/'rag_qa'/'data'):
 
     #封装大模型调用逻辑
     def call_dashscope(prompt):
-        """?? call_dashscope ???
-        
-        params:
-            prompt: ?????
-        
-        return:
-            ??????"""
+        """执行 call_dashscope 函数。
+                
+                params:
+                    prompt: 参数说明。
+                
+                return:
+                    函数返回值。"""
         if not client:
             logger.error('LLM客户端未初始化, 无法调用 call_dashscope')
             return f'错误: LLM客户端不可用'
